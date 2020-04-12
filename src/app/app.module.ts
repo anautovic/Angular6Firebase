@@ -13,14 +13,17 @@ import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { LoginComponent } from './login/login.component';
-import{NgbModule} from'@ng-bootstrap/ng-bootstrap';
+import {NgbModule} from'@ng-bootstrap/ng-bootstrap';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-
+import{AuthService} from './auth.service'
+import {AuthGuardService} from './auth-guard.service';
 import { environment } from '../environments/environment';
+import { from } from 'rxjs';
 @NgModule({
   declarations: [
+    
     AppComponent,
     BsNavbarComponent,
     HeaderComponent,
@@ -40,7 +43,7 @@ import { environment } from '../environments/environment';
     BrowserModule, NgbModule.forRoot(),
     RouterModule.forRoot([{path:'', component:HomeComponent},
     {path:'products', component:ProductsComponent},
-    {path:'check-out', component:CheckOutComponent},
+    {path:'check-out', component:CheckOutComponent, canActivate:[AuthGuardService]},
     {path:'my-orders', component:MyOrdersComponent},
     {path:'order-success', component:OrderSuccessComponent},
     {path:'shopping-cart', component:ShoppingCartComponent},
@@ -50,7 +53,7 @@ import { environment } from '../environments/environment';
 ]),
     
   ],
-  providers: [],
+  providers: [AuthService,AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
